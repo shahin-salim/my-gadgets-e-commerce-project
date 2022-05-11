@@ -1,0 +1,440 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="no-js" lang="zxx">
+
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <title>mygadgets</title>
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="stylesheet" href="{% static 'userAddon/css/bootstrap.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'userAddon/css/LineIcons.3.0.css' %}" />
+  <link rel="stylesheet" href="{% static 'userAddon/css/tiny-slider.css' %}" />
+  <link rel="stylesheet" href="{% static 'userAddon/css/glightbox.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'userAddon/css/main.css' %}" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- ======= header start =========== -->
+  {% include 'userTempl/header.html' %}
+  <!-- ======= header end =========== -->
+
+  <div class="breadcrumbs">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 col-md-6 col-12">
+          <div class="breadcrumbs-content">
+            <h1 class="page-title">Shop Grid</h1>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-12">
+          <ul class="breadcrumb-nav">
+            <li><a href="/"><i class="lni lni-home"></i> Home</a></li>
+            <li>product list</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <section class="product-grids section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-12">
+
+          <!-- ============================ product sort option in the left side start ============================ -->
+
+
+          <div class="product-sidebar">
+
+            <div class="single-widget">
+              <h3>All Categories</h3>
+              <ul class="list">
+
+                <!-- =============== displaying smartphone os start =============== -->
+                <form action="" method="get" id="category-form">
+                  {% for i in category %}
+                  <label for="" class="form-check-label ms-2">{{i.category}}</label>
+                  <input type="checkbox" value="{{i.id}}" name="category" class="form-check-input category">
+                  {% endfor %}
+                </form>
+                <!-- =============== displaying smartphone os end =============== -->
+
+              </ul>
+            </div>
+
+
+            <!-- displaying ram -->
+            <div class="single-widget">
+              <h3>ram</h3>
+              <form action="" method="get" id="variant-form">
+
+                <!-- =============== displaying smartphone RAM start =============== -->
+
+                {% for i in ram %}
+                <label for="" class="form-check-label ms-2">{{i.variant}} GB</label>
+                <input type="checkbox" value="{{i.variant}}" name="ram" class="form-check-input  ram">
+                {% endfor %}
+
+                <!-- =============== displaying smartphone RAM end =============== -->
+
+              </form>
+            </div>
+
+            <div class="single-widget">
+              <h3>processor</h3>
+              <form action="" method="get" id="processor-form">
+
+                <!-- ============================ displaying processor start ============================ -->
+
+                {% for i in processor %}
+                <label for="" class="form-check-label ms-2">{{i.product_id__processor}}</label>
+                <input type="checkbox" value="{{i.product_id__processor}}" name="processor"
+                  class="form-check-input  processor">
+                {% endfor %}
+
+                <!-- ============================ displaying processor end ============================ -->
+
+              </form>
+            </div>
+
+            <!-- price range sort -->
+            <div class="single-widget range">
+
+
+              <form action="/productlist" method="get" id="submit-filter">
+
+                <!-- ============================ rpice range start============================ -->
+
+                <h3>Price Range</h3>
+                <input type="range" class="form-range" name="min" step="1" min="2000" max="100000" value="2000"
+                  onchange="rangePrimary.value=value">
+                <div class="range-inner">
+                  <label>min</label>
+                  <input type="text" id="rangePrimary" placeholder="2000" class="ms-4">
+                </div>
+
+                <input type="range" class="form-range" name="max" step="1" min="100" max="100000" value="100000"
+                  onchange="rangePrimary1.value=value">
+                <div class="range-inner">
+                  <label>Max</label>
+                  <input type="text" id="rangePrimary1" placeholder="100000" class="ms-4" style="border: none;">
+                </div>
+
+                <!-- ============================ price range end ============================ -->
+
+                <!-- ********************************************************************************************************************** -->
+                <!-- all the items user selected for filtering is set inside this form and submit this form when user clicked filter button -->
+                <!-- ********************************************************************************************************************** -->
+                <input type="hidden" value="" name="category" id="submit-category">
+                <input type="hidden" value="" name="brand" id="submit-brand">
+                <input type="hidden" value="" name="ram" id="submit-ram">
+                <input type="hidden" value="" name="processor" id="submit-processor">
+
+              </form>
+            </div>
+
+
+
+            <!-- ============================ all the brand list here start ============================ -->
+
+            <div class="single-widget condition">
+              <h3>Filter by Brand</h3>
+              <form action="" method="get" id="brand-form">
+                {% for i in brand %}
+                <label for="" class="form-check-label ms-2">{{i.brand_name}} </label>
+                <input type="checkbox" value="{{i.id}}" name="brand" class="form-check-input brand">
+                {% endfor %}
+              </form>
+            </div>
+
+            <!-- ============================ all the brand list here end ============================ -->
+
+            <div class="">
+              <!-- ================ submit filter button start  ============== -->
+              <button class="btn bg-primary text-light w-100" id="filter">APPLY FILTER</button>
+              <!-- ================ submit filter button end  ============== -->
+
+            </div>
+          </div>
+          <!-- ============================ product sort option in the left side end ============================ -->
+
+
+        </div>
+        <div class="col-lg-9 col-12">
+          <div class="product-grids-head">
+            <div class="product-grid-topbar">
+              <div class="row align-items-center">
+                <div class="col-lg-7 col-md-8 col-12">
+                  <div class="product-sorting">
+
+                    <!-- ================ product sort option these are (low to hight, hight to low and popularity) start ============== -->
+
+                    <form action="/sortby" method="get" id="sortByfrom">
+                      <label for="sorting">Sort by:</label>
+                      <select class="form-control" id="sorting" name="sortby" oninput="(this.form).submit()">
+                        <option>--------</option>
+                        <option value="popularity">Popularity</option>
+                        <option value="low-high">Low - High Price</option>
+                        <option value="high-low">High - Low Price</option>
+                      </select>
+                    </form>
+
+                    <!-- ================ product sort option these are (low to hight, hight to low and popularity) end ============== -->
+
+                  </div>
+                </div>
+                <div class="col-lg-5 col-md-4 col-12">
+                  <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+
+
+                    </div>
+                  </nav>
+                </div>
+              </div>
+            </div>
+            <div class="tab-content" id="nav-tabContent">
+              <div class="tab-pane fade show active" id="nav-grid" role="tabpanel" aria-labelledby="nav-grid-tab">
+                <div class="row">
+
+                  <!-- ===================== all the porduct list here start ===================== -->
+
+                  {% if allProducts %}
+                  {% for i in allProducts %}
+                  <div class="col-lg-4 col-md-6 col-12">
+
+                    <div class="single-product">
+                      <div class="product-image d-flex justify-content-center">
+                        <a href='/eachproduct?p_id={{i.product_id.id}}'>
+                          <img src="{{i.product_id.img1.url}}" alt="#" style="width: 6rem;">
+                          {% if i.price == i.final_price %}
+                          {% elif i.product_id.offer > i.product_id.brand_id.c_id.offer %}
+                          <span class="sale-tag">-{{i.product_id.offer}}%</span>
+                          {% else %}
+                          <span class="sale-tag">-{{i.product_id.brand_id.c_id.offer}}%</span>
+                          {% endif %}
+                        </a>
+                      </div>
+                      <div class="product-info">
+                        <span class="category">Smartphone</span>
+                        <h4 class="title">
+                          <a href="/eachproduct?p_id={{i.product_id.id}}">{{i.product_id.brand_id.brand_name}}
+                            {{i.product_id.product_name}} ({{i.variant}}GB RAM)</a>
+                        </h4>
+
+                        <div class="price">
+                          <span>₹{{i.final_price}}</span>
+                          <span class="discount-price">
+                            {% if i.price == i.final_price %}
+                            {% else %}
+                            {{i.price}}
+                            {% endif %}
+                        </div>
+                        <div class="price">
+                          {% if i.quantity %}
+                          <a href="/checkout/{{i.id}}" class="btn bg-primary  text-light">buy now</a>
+                          <a onclick="addToCart({{i.id}})" class="btn border-dark ms-2"><i class="lni lni-cart"></i>
+                          </a>
+
+
+                          <a onclick="addToWhishlist({{i.id}})" class="btn border-dark ms-1">
+                            <i class="lni lni-heart"></i>
+                          </a>
+
+                          {% else %}
+                          <span class="text-danger">out of stock</span>
+                          {% endif %}
+                        </div>
+
+
+
+
+
+                      </div>
+                    </div>
+
+                  </div>
+
+                  {% endfor %}
+
+                  <!-- ===================== all the porduct list here end ===================== -->
+
+                  {% else %}
+
+                  <!-- ============== if no product to list =============== -->
+
+                  <h1 class="text-center text-danger">No Products Avilable</h1>
+
+                  <!-- ============== if no product to list =============== -->
+
+
+                  {% endif %}
+                </div>
+
+                <!-- pagination -->
+
+                <div class="row">
+                  <div class="col-12 d-flex justify-content-end">
+
+                    <!-- ======================================== pagination start ======================================== -->
+
+                    <div class="pagination left">
+                      <ul class="pagination-list">
+                        {% if allProducts.has_previous %}
+                        <li>
+                          {% if minBool %}
+                          <a href="{{pageUrl}}&page={{allProducts.previous_page_number}}">previous</a>
+                          {% else %}
+                          <a href="?page={{allProducts.previous_page_number}}">previous</a>
+                          {% endif %}
+                        </li>
+                        {% endif %}
+                        {% if allProducts.number %}
+                        <li class="active">
+                          <a class="page-link" href="#">{{allProducts.number}}</a>
+                        </li>
+                        {% endif %}
+                        {% if allProducts.has_next %}
+                        <li>
+                          {% if minBool %}
+                          <a href="{{pageUrl}}&page={{allProducts.next_page_number}}">Next</a>
+                          {% else %}
+                          <a href="?page={{allProducts.next_page_number}}">Next</a>
+
+                          {% endif %}
+                        </li>
+                        {% endif %}
+                      </ul>
+                    </div>
+
+                    <!-- ======================================== pagination start ======================================== -->
+
+                  </div>
+                </div>
+
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- =========================== footer start =========================== -->
+  {% include 'userTempl/footer.html' %}
+  <!-- =========================== footer start =========================== -->
+
+
+  <a href="#" class="scroll-top">
+    <i class="lni lni-chevron-up"></i>
+  </a>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+    integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="{% static 'userAddon/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'userAddon/js/tiny-slider.js' %}"></script>
+  <script src="{% static 'userAddon/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'userAddon/js/main.js' %}"></script>
+  <script src="{% static 'userAddon/js/addToCart.js' %}"></script>
+
+
+  <script>
+
+    // ********************************************************************************************************************** 
+    // on click filter button passing the items listed for sorting and the id of the form input  which this data is going to store
+    // ********************************************************************************************************************** 
+
+
+    $("#filter").click(() => {
+
+      // actionForFilter get all the value as array and save in the form
+
+      actionForFilter('category', 'submit-category')
+      actionForFilter('ram', 'submit-ram')
+      actionForFilter('brand', 'submit-brand')
+      actionForFilter('processor', 'submit-processor')
+
+      // after all the data stored in the form this form will submit
+      $("#submit-filter").submit()
+      
+    })
+
+
+    function actionForFilter(cls, setId) {
+      var arr = []
+      var temp = []
+      var element = document.getElementsByClassName(cls)
+
+      for (var i = 0; element[i]; i++) {          // iterate through every checkbox
+        if (element[i].checked) {
+          arr.push(element[i].value)              // item checked store in  arr array
+        } else {
+          if (element[i].value != undefined) {
+            temp.push(element[i].value)           // item not checked store in temp array
+          }
+        }
+      }
+      if (arr.length == 0) {                      // check the length of arr array if its 0 all the items in temp is going transfer to arr array.
+        arr = temp                                // user not seleced any option in the checkout button all the items used  in sorting
+      }
+      $("#" + setId).val(arr)                     // set items in form  this form is going to submit that all the filter data contain
+    }
+  </script>
+
+  <script>
+
+    // add to whislist item onclick the add to cart button
+    function addToWhishlist(v_id) {
+      var data = {
+        vari_id: v_id,
+      };
+
+      $.ajax({
+        url: "/whishlist/addtowhishlist",
+        method: "GET",
+        data: data,
+        dataType: "json",
+        success: function (data) {
+          if (data.status) {
+            $("#whishlist_count").html(data.whishlist_count);
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top",
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener("mouseenter", Swal.stopTimer);
+                toast.addEventListener("mouseleave", Swal.resumeTimer);
+              },
+            });
+
+            Toast.fire({
+              icon: "success",
+              title: "add to whishlist",
+            });
+          } else {
+            window.location = '/accounts/login'
+          }
+        },
+      });
+    }
+
+  </script>
+
+</body>
+
+</html>

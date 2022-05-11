@@ -1,0 +1,53 @@
+{% extends "userTempl/usermain.html" %} {% block content %}
+
+<style>
+     .errorlist li {
+          color: red;
+     }
+</style>
+
+<div class="container">
+     <div class="d-flex align-items-center justify-content-center" style="height: 100vh;">
+          <div>
+
+               <!-- =============== login form start ================= -->
+               <form method="post" action="/accounts/login" novalidate>
+                    {% csrf_token %}
+                    <h1 class="text-center">Login</h1>
+                    <h3 class="text-danger">{{err}}</h3>
+                    {{form}}
+                    <button type="submit" class="btn bg-primary w-100 text-light">submit</button>
+               </form>
+               <!-- =============== login form end ================= -->
+
+
+               <h5 class="text-center mt-2">OR</h5>
+               <a href="/accounts/number_field" class="bg-primary text-light mt-2 mb-2 btn w-100"
+                    style="text-decoration: none;">Login
+                    wit OTP</a>
+               <a href="/accounts/register" class=" text-primary mt-5 mb-2 btn w-100" style="text-decoration: none;">register new
+                    account here</a>
+          </div>
+
+     </div>
+</div>
+
+
+<script>
+
+     $("#id_username").on("input", function () {
+          if (document.querySelectorAll('.errorlist').length == 2) {
+               document.getElementsByClassName('errorlist')[0].style.visibility = 'hidden';
+
+          }
+     })
+     $("#id_password").on("input", function () {
+          if (document.querySelectorAll('.errorlist').length == 2) {
+               document.getElementsByClassName('errorlist')[1].style.visibility = 'hidden';
+          } else {
+               document.getElementsByClassName('errorlist')[0].style.visibility = 'hidden';
+          }
+     })
+
+</script>
+{% endblock %}

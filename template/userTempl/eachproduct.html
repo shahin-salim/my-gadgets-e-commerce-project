@@ -1,0 +1,538 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="no-js" lang="zxx">
+
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>mygadgets</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- ========================= CSS here ========================= -->
+    <link rel="stylesheet" href="{% static 'userAddon/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'userAddon/css/LineIcons.3.0.css' %}" />
+    <link rel="stylesheet" href="{% static 'userAddon/css/tiny-slider.css' %}" />
+    <link rel="stylesheet" href="{% static 'userAddon/css/glightbox.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'userAddon/css/main.css' %}" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'zoomCss.css' %}">
+</head>
+
+<body>
+
+    <!-- =================== header starts ============================== -->
+
+    {% include 'userTempl/header.html' %}
+
+    <!-- =================== header ends ============================== -->
+
+
+    <div class="breadcrumbs">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6 col-12">
+                    <div class="breadcrumbs-content">
+                        <h1 class="page-title">Shop Grid</h1>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                    <ul class="breadcrumb-nav">
+                        <li><a href="/"><i class="lni lni-home"></i> Home</a></li>
+                        <li>product list</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <section class="item-details section">
+        <div class="container">
+            <div class="top-area">
+
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-md-12 col-12">
+
+                        <div class="container">
+
+                            <!-- default start -->
+                            <section id="default" class="padding-top0">
+                                <div class="row">
+
+
+                                    <!-- ===================  product images start =================== -->
+
+
+                                    <div class="large-5 column">
+                                        <div class="xzoom-container">
+                                            <div class="">
+                                                <img class="xzoom" id="xzoom-default"
+                                                    src="{{varinat1.product_id.img1.url}}"
+                                                    xoriginal="{{varinat1.product_id.img1.url}}" />
+                                            </div>
+                                            <div class="xzoom-thumbs mt-4 d-flex">
+                                                <a href="{{varinat1.product_id.img1.url}}"><img class="xzoom-gallery "
+                                                        width="80" src="{{varinat1.product_id.img1.url}}" title="">
+                                                </a>
+                                                <a href="{{varinat1.product_id.img2.url}}"><img
+                                                        class="xzoom-gallery ms-3" width="80"
+                                                        src="{{varinat1.product_id.img2.url}}"
+                                                        xpreview="{{varinat1.product_id.img2.url}}" title="">
+                                                </a>
+
+                                                <a href="{{varinat1.product_id.img3.url}}"><img
+                                                        class="xzoom-gallery ms-3" width="80"
+                                                        src="{{varinat1.product_id.img3.url}}" title="">
+                                                </a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- ===================  product images end =================== -->
+
+                                    <div class="large-7 column"></div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+
+                    <!-- ===================  product info start =================== -->
+
+                    <div class="col-lg-6 col-md-12 col-12" style="z-index: 0;">
+                        <div class="product-info">
+                            <h2 class="title ">{{varinat1.product_id.brand_id.brand_name}}
+                                {{varinat1.product_id.product_name}} (Cross
+                                Black, {{i.rom}} GB)
+                                (<span id="current-ram">{{varinat1.variant}}</span> GB RAM)</h2>
+                            <div class="d-flex align-items-center">
+                                <h3 class="price -0" id="p-final-price" style="margin: 0;">₹ {{varinat1.final_price}}
+                                </h3>
+                                <del class="ms-3" id="p-price">  
+                                    {% if varinat1.product_id.offer != varinat1.product_id.brand_id.c_id.offer %} 
+                                    ₹ {{varinat1.price}} 
+                                    {% endif %}
+                                </del>
+                                <span class="text-danger ms-3">
+                                    {% if varinat1.product_id.offer > varinat1.product_id.brand_id.c_id.offer %}
+                                    {{varinat1.product_id.offer }} % off
+                                    {% elif varinat1.product_id.offer < varinat1.product_id.brand_id.c_id.offer %}
+                                        {{varinat1.product_id.brand_id.c_id.offer}} % off 
+                                    {% endif %}
+                                 </span>
+
+                            </div>
+
+
+                            <div class="row mt-3">
+
+
+
+                                <div class="col-lg-4 col-md-4 col-12 d-flex align-items-center">
+                                    <label for="">variants:</label>
+                                    <form id="varaintForm">
+                                        <div class="btn-group d-flex ms-3 " role="group"
+                                            aria-label="Basic radio toggle button group">
+
+                                            {% for v in variants %}
+                                            {% if forloop.counter == 1 %}
+                                            <input type="radio" class="btn-check rounded " name="variantbtn"
+                                                id="btnradio1" autocomplete="off" value="{{v.id}}" checked>
+                                            <label class="btn btn-outline-primary rounded border-primary"
+                                                for="btnradio1">{{v.variant}}GB</label>
+                                            {% else %}
+
+                                            <input type="radio" class="btn-check rounded " value="{{v.id}}"
+                                                name="variantbtn" id="btnradio2" autocomplete="off">
+
+                                            <label class="btn btn-outline-primary rounded ms-3 border-primary"
+                                                for="btnradio2">
+                                                {{v.variant}}GB</label>
+
+                                            {% endif %}
+                                            {% endfor %}
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="product-details-info">
+                                <div class="single-block">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-12">
+                                            <div class="info-body custom-responsive-margin">
+
+                                                <h4>Features</h4>
+                                                <ul class="features">
+                                                    <li>{{varinat1.product_id.rom}} GB ROM</li>
+                                                    <li>processor : {{varinat1.product_id.processor}} </li>
+                                                    <li>{{varinat1.product_id.back_camera}} MP back camera</li>
+                                                    <li>{{varinat1.product_id.front_camera}} MP front camera</li>
+                                                    <li>{{varinat1.product_id.battery}} MAH battery</li>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bottom-content">
+                                <div class="row align-items-end">
+                                    <div class="col-lg-4 col-md-4 col-12 options">
+                                        <div class="button cart-button">
+                                            <a onclick="buyNowFromVariant()"
+                                                class="btn bg-primary  text-light d-flex justify-content-center align-items-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    fill="currentColor" class="bi bi-lightning-fill"
+                                                    viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M5.52.359A.5.5 0 0 1 6 0h4a.5.5 0 0 1 .474.658L8.694 6H12.5a.5.5 0 0 1 .395.807l-7 9a.5.5 0 0 1-.873-.454L6.823 9.5H3.5a.5.5 0 0 1-.48-.641l2.5-8.5z" />
+                                                </svg> BUY NOW</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-12 options" >
+                                        <div class="wish-button">
+                                            <button class="btn d-flex justify-content-center align-items-center"
+                                                onclick="findSelected()"><svg xmlns="http://www.w3.org/2000/svg"
+                                                    width="16" height="16" fill="currentColor" class="bi bi-cart4 me-1"
+                                                    viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
+                                                </svg> ADD TO CART</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4 col-12 options">
+                                        <div class="wish-button">
+                                            <button class="btn d-flex justify-content-center align-items-center"
+                                                onclick="addToWhishlist()"><i class="lni lni-heart"></i>WHISHLIST</button>
+                                        </div>
+                                    </div>
+
+
+
+
+                                </div>
+                            </div>
+
+
+                            <div class="bottom-content">
+                                
+                                    {% if varinat1.quantity == 0 %}
+                                    <h3 class="text-danger" id="current-quantity" >Out of stock</h3>
+                                    {% elif varinat1.quantity < 10 %} 
+                                     
+                                    <h3 class="text-danger" id="current-quantity">Only few more quantity left</h3>
+
+                                    {% else %} 
+                                    
+                                    <h3 class="text-danger" id="current-quantity">Quantity left :{{varinat1.quantity}} </h3>
+ 
+                                    {% endif %} 
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+
+                    <!-- ===================  product info end =================== -->
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+    <!-- End Item Details -->
+
+
+
+
+
+    <!-- Start Footer Area -->
+    {% include 'userTempl/footer.html' %}
+    <!--/ End Footer Area -->
+
+    <!-- ========================= scroll-top ========================= -->
+    <a href="#" class="scroll-top">
+        <i class="lni lni-chevron-up"></i>
+    </a>
+
+
+
+
+    <!-- ========================= JS here ========================= -->
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //If your <ul> has the id "glasscase"
+            $('#glasscase').glassCase({ 'thumbsPosition': 'bottom', 'widthDisplay': 560 });
+        });
+    </script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src='https://code.jquery.com/jquery-2.1.1.js'></script>
+    <script src='https://unpkg.com/xzoom/dist/xzoom.min.js'></script>
+    <script src='https://hammerjs.github.io/dist/hammer.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/js/foundation.min.js'></script>
+    <script src="{% static 'zoomScript.js' %}"></script>
+    <script src="{% static 'userAddon/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'userAddon/js/tiny-slider.js' %}"></script>
+    <script src="{% static 'userAddon/js/glightbox.min.js' %}"></script>
+    <script src="{% static 'userAddon/js/main.js' %}"></script>
+    <script src="{% static 'userAddon/js/addToCart.js' %}"></script>
+
+
+    <script type="text/javascript">
+        const current = document.getElementById("current");
+        const opacity = 0.6;
+        const imgs = document.querySelectorAll(".img");
+        imgs.forEach(img => {
+            img.addEventListener("click", (e) => {
+                //reset opacity
+                imgs.forEach(img => {
+                    img.style.opacity = 1;
+                });
+                current.src = e.target.src;
+                //adding class 
+                //current.classList.add("fade-in");
+                //opacity
+                e.target.style.opacity = opacity;
+            });
+        });
+
+    </script>
+
+
+    <script>
+        imageZoom("myimage", "myresult");
+        function imageZoom(imgID, resultID) {
+            var img, lens, result, cx, cy;
+            img = document.getElementById(imgID);
+            result = document.getElementById(resultID);
+            /*create lens:*/
+            lens = document.createElement("DIV");
+            lens.setAttribute("class", "img-zoom-lens");
+            /*insert lens:*/
+            img.parentElement.insertBefore(lens, img);
+            /*calculate the ratio between result DIV and lens:*/
+            console.log("result.offsetWidth  >>>>>", result.offsetWidth, "lens.offsetWidth>>>>>>>>>>>", lens.offsetWidth);
+            cx = 300 / lens.offsetWidth;
+            console.log("result.offsetHeight>>>>>", result.offsetHeight, "llens.offsetHeighth>>>>>>>>>>>", lens.offsetHeight);
+            cy = 300 / lens.offsetHeight;
+            /*set background properties for the result DIV:*/
+            result.style.backgroundImage = "url('" + img.srcset + "')";
+            result.style.backgroundSize = (img.width * cx) + "px " + (img.height * cy) + "px";
+            /*execute a function when someone moves the cursor over the image, or the lens:*/
+            lens.addEventListener("mousemove", moveLens);
+            img.addEventListener("mousemove", moveLens);
+            /*and also for touch screens:*/
+            lens.addEventListener("touchmove", moveLens);
+            img.addEventListener("touchmove", moveLens);
+            // img.addEventListener("mouseenter", bigImg);  
+
+
+
+            function bigImg(x) {
+                console.log("onmouseenter >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            }
+
+            function normalImg(x) {
+                //result.style.display ="none";
+                console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>onmousLEAVE");
+            }
+
+
+
+            function moveLens(e) {
+                var pos, x, y;
+                /*prevent any other actions that may occur when moving over the image:*/
+                e.preventDefault();
+                /*get the cursor's x and y positions:*/
+                pos = getCursorPos(e);
+                /*calculate the position of the lens:*/
+                x = pos.x - (lens.offsetWidth / 2);
+                y = pos.y - (lens.offsetHeight / 2);
+                // console.log("x" , x , "and Y " , y); 
+                /*prevent the lens from being positioned outside the image:*/
+                if (x > img.width - lens.offsetWidth) { x = img.width - lens.offsetWidth; } //else{img.addEventListener("mouseenter", bigImg);  }
+                if (x < 0) { x = 0; }
+                if (y > img.height - lens.offsetHeight) { y = img.height - lens.offsetHeight; img.addEventListener("mouseleave", normalImg); }//else{img.addEventListener("mouseenter", bigImg);  }
+                if (y < 0) { y = 0; }
+                /*set the position of the lens:*/
+                lens.style.left = x + "px";
+                lens.style.top = y + "px";
+                /*display what the lens "sees":*/
+                result.style.backgroundPosition = "-" + (x * cx) + "px -" + (y * cy) + "px";
+            }
+            function getCursorPos(e) {
+                var a, x = 0, y = 0;
+                e = e || window.event;
+                /*get the x and y positions of the image:*/
+                a = img.getBoundingClientRect();
+                //console.log("------------------A  left" ,  a ); 
+                /*calculate the cursor's x and y coordinates, relative to the image:*/
+                x = e.pageX - a.left;
+                y = e.pageY - a.top;
+                /*consider any page scrolling:*/
+                x = x - window.pageXOffset;
+                y = y - window.pageYOffset;
+                return { x: x, y: y };
+            }
+
+        }
+
+        function hideme(x) {
+            //x.style.display = "none";
+
+        }
+        function showme(x) {
+            //x.style.display = "block";
+
+        }
+
+
+
+    </script>
+
+    <script>
+
+        $("input[name='variantbtn']").change(() => {
+            var data = {
+                variantId: $('input[name="variantbtn"]:checked').attr("value")
+            };
+            $.ajax({
+                url: "/changevariant",
+                method: "GET",
+                data: data,
+                dataType: "json",
+                success: function (data) {
+                    if (data.success) {
+                        $("#p-final-price").html("₹ " + data.pfinalprice)
+                        if (data.pfinalprice != data.price){
+                            $("#p-price").html("₹ " +data.price)
+
+                        }
+                        $("#current-ram").html(data.currentRam)
+                        var val
+                        $(".options").show()
+
+                        if (data.currentQuantity == 0) {
+                            val = 'Out of stock'
+                            $(".options").hide()
+                        } else if (data.currentQuantity < 10) {
+                            val = 'Only few more quantity left'
+                        } else {
+                            val = 'quantity left ' + data.currentQuantity
+                        }
+                        $("#current-quantity").html(val)
+                    } else {
+                        console.log("failed");
+                    }
+                },
+            });
+        })
+
+        function findSelected() {
+            var data = {
+                variantId: $('input[name="variantbtn"]:checked').attr("value")
+            };
+            $.ajax({
+                url: "/changevariant",
+                method: "GET",
+                data: data,
+                dataType: "json",
+                success: function (data) {
+                    if (data.currentQuantity) {
+                        addToCart($('input[name="variantbtn"]:checked').val())
+                    }
+                },
+            });
+        }
+
+        function buyNowFromVariant() {
+
+            var data = {
+                variantId: $('input[name="variantbtn"]:checked').attr("value")
+            };
+            $.ajax({
+                url: "/changevariant",
+                method: "GET",
+                data: data,
+                dataType: "json",
+                success: function (data) {
+                    if (data.currentQuantity) {
+                        window.location = "/checkout/" + $('input[name="variantbtn"]:checked').attr("value")
+
+                    }
+                },
+            });
+        }
+    </script>
+
+
+    <script>
+
+        $(document).ready(function() {
+            var val = $("#current-quantity").html()
+            if (val == "Out of stock"){
+                $(".options").hide()
+            }
+           });        
+    </script>
+
+
+
+
+    <!-- =========== add to whislist  starts =========== -->
+    <script>
+        function addToWhishlist() {
+            var data = {
+                vari_id: $('input[name="variantbtn"]:checked').attr("value")
+            };
+            $.ajax({
+                url: "/whishlist/addtowhishlist",
+                method: "GET",
+                data: data,
+                dataType: "json",
+                success: function (data) {
+                    if (data.status) {
+                        $("#whishlist_count").html(data.whishlist_count);
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: "top",
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener("mouseenter", Swal.stopTimer);
+                                toast.addEventListener("mouseleave", Swal.resumeTimer);
+                            },
+                        });
+
+                        Toast.fire({
+                            icon: "success",
+                            title: "added into whishlist",
+                        });
+                    } else {
+                        window.location = '/accounts/login'
+                    }
+                },
+            });
+        }
+
+    </script>
+
+    <!-- =========== add to whislist  ends =========== -->
+
+
+
+</body>
+
+</html>
